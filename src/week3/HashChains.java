@@ -1,4 +1,3 @@
-//Strange! we cannot update it to github!
 package week3;
 import java.io.*;
 import java.util.ArrayList;
