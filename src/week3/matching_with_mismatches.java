@@ -7,7 +7,48 @@ import java.io.*;
 public class matching_with_mismatches {
     public List<Integer> solve(int k, String text, String pattern) {
         ArrayList<Integer> pos = new ArrayList<>();
+        for(int i = 0; i + pattern.length() - 1 < text.length(); i++) {
+        	String subS = text.substring(i, i + pattern.length());
+        	int count = numOfMismatches(k, subS, pattern);
+        	//System.out.println("i = " + i + ", count = " + count);
+        	if(count <= k) {
+        		pos.add(i);
+        	}
+        }
         return pos;
+    }
+    
+//    public int numOfMismatches(int left, int right, int k, String subS, String p) {
+//    	//int left and right are referring to the subS
+//    	//So the initial range is 0 to subS.length()
+//    	//right is excluded
+//    	return 0;
+//    }
+    
+    public int numOfMismatches(int k, String subS, String p) {
+    	//Haoyun: the general idea is to loop through all subS's of length p.length() in s
+    	//For each subS, use binary search to find (at most) k mismatches
+    	//Use hash code to compare. If equal, then we believe no mismatch
+    	//If unequal, repeat same procedure for left part and right part
+    	if(subS.hashCode() == p.hashCode()) return 0;   
+    	
+    	int count = 0;
+    	if(subS.length() == 1) {
+    		return subS.equals(p) ? 0 : 1;
+    	}
+    	else {
+    		
+    		String leftSub = subS.substring(0, subS.length() / 2);
+    		String leftP = p.substring(0, p.length() / 2);
+    		count += numOfMismatches(k, leftSub, leftP);
+    		if(count > k) return count;
+    	
+    		String rightSub = subS.substring(subS.length() / 2, subS.length());
+    		String rightP = p.substring(p.length() / 2, p.length());
+    		count += numOfMismatches(k, rightSub, rightP);
+    		if(count > k) return count;
+    	}
+    	return count;
     }
 
     public void run() {
@@ -24,9 +65,12 @@ public class matching_with_mismatches {
                     .map(n -> String.valueOf(n))
                     .collect(Collectors.joining(" "))
             );
+            out.flush();
         });
         out.close();
     }
+    
+    
 
     static public void main(String[] args) {
         new matching_with_mismatches().run();
