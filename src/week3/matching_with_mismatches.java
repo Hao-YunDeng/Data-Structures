@@ -10,7 +10,6 @@ public class matching_with_mismatches {
         for(int i = 0; i + pattern.length() - 1 < text.length(); i++) {
         	String subS = text.substring(i, i + pattern.length());
         	int count = numOfMismatches(k, subS, pattern);
-        	//System.out.println("i = " + i + ", count = " + count);
         	if(count <= k) {
         		pos.add(i);
         	}
@@ -18,18 +17,11 @@ public class matching_with_mismatches {
         return pos;
     }
     
-//    public int numOfMismatches(int left, int right, int k, String subS, String p) {
-//    	//int left and right are referring to the subS
-//    	//So the initial range is 0 to subS.length()
-//    	//right is excluded
-//    	return 0;
-//    }
-    
     public int numOfMismatches(int k, String subS, String p) {
     	//Haoyun: the general idea is to loop through all subS's of length p.length() in s
-    	//For each subS, use binary search to find (at most) k mismatches
+    	//For each subS, we try to find (at most) k mismatches comparing with p
     	//Use hash code to compare. If equal, then we believe no mismatch
-    	//If unequal, repeat same procedure for left part and right part
+    	//If unequal, repeat same procedure for left part and right part of subS
     	if(subS.hashCode() == p.hashCode()) return 0;   
     	
     	int count = 0;

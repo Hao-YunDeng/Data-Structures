@@ -44,24 +44,46 @@ public class tree_orders {
 			ArrayList<Integer> result = new ArrayList<Integer>();
                         // Finish the implementation
                         // You may need to add a new recursive method to do that
-                        
+			inOrder(0, result);
+            //Haoyun: no need to return; arrayList is an object. If a method modified it, it is modified
 			return result;
+		}
+		//Haoyun: we need a new recursive method which contains variable
+		void inOrder(int index, ArrayList<Integer> result) {
+			if(index == -1) return;
+			inOrder(left[index], result);
+			result.add(key[index]);
+			inOrder(right[index], result);
 		}
 
 		List<Integer> preOrder() {
 			ArrayList<Integer> result = new ArrayList<Integer>();
                         // Finish the implementation
                         // You may need to add a new recursive method to do that
-                        
+			preOrder(0, result);            
 			return result;
+		}
+		void preOrder(int index, ArrayList<Integer> result) {
+			if(index == -1) return;
+			result.add(key[index]);
+			inOrder(left[index], result);			
+			inOrder(right[index], result);
+			
 		}
 
 		List<Integer> postOrder() {
 			ArrayList<Integer> result = new ArrayList<Integer>();
                         // Finish the implementation
                         // You may need to add a new recursive method to do that
-                        
+			postOrder(0, result);            
 			return result;
+		}
+		void postOrder(int index, ArrayList<Integer> result) {
+			if(index == -1) return;			
+			inOrder(left[index], result);			
+			inOrder(right[index], result);
+			result.add(key[index]);
+			
 		}
 	}
 

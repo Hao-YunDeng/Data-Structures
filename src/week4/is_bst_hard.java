@@ -49,7 +49,15 @@ public class is_bst_hard {
 
         boolean isBinarySearchTree() {
           // Implement correct algorithm here
-          return true;
+          return isBST(0, Integer.MIN_VALUE, Integer.MAX_VALUE);
+        }
+        boolean isBST(int index, int low, int high) {
+        	if(tree.length <= 1) return true;
+        	//Important: if tree is empty array you can't even call tree[0]!
+        	
+        	if(index == -1) return true;
+        	if(tree[index].key < low || tree[index].key >= high) return false;
+        	return isBST(tree[index].left, low, tree[index].key) && isBST(tree[index].right, tree[index].key, high);
         }
     }
 

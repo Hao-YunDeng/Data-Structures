@@ -187,16 +187,48 @@ public class SetRangeSum {
         }
         root = merge(merge(left, new_vertex), right);
     }
-
+    
+    //Haoyun: some advice from discussion forum
+    //Use only split() and merge() for all: erase(), find(), and sum().
+    //Look at insert() and try to understand it. All your three functions should be almost the same.
+    //When you take value from middle->sum or right->key check if middle or right are not NULL.
+    //We can use "delete middle" in erase() function. 
+    
     void erase(int x) {
         // Implement erase yourself
+    	VertexPair leftMiddle = split(root, x);
+    	Vertex left = leftMiddle.left;
+    	Vertex middle = leftMiddle.right;
+    	
+    	VertexPair middleRight = split(middle, x + 1);
+    	Vertex right = middleRight.right;
+    	
+    	middle = middleRight.left;
+    	
+    	if(middle == null || middle.key != x) {
+    		root = merge(merge(left, middle), right);
+    	}
+    	else {
+    		middle = null;
+    		root = merge(left, right);
+    	}
 
     }
 
     boolean find(int x) {
         // Implement find yourself
-
-        return false;
+    	VertexPair leftRight = split(root, x);
+    	Vertex left = leftRight.left;
+    	Vertex right = leftRight.right;
+    	
+    	if(right == null || right.key != x) {
+    		root = merge(left, right);
+    		return false;
+    	}
+    	else {
+    		root = merge(left, right);
+    		return true;
+    	}
     }
 
     long sum(int from, int to) {
@@ -208,7 +240,10 @@ public class SetRangeSum {
         Vertex right = middleRight.right;
         long ans = 0;
         // Complete the implementation of sum
-
+        if(middle != null) {
+        	ans = middle.sum;
+        }
+        root = merge(left, merge(middle, right));
         return ans;
     }
 
